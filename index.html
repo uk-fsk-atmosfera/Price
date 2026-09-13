@@ -158,6 +158,19 @@
   search.addEventListener('input', function(){
     var q=search.value.trim().toLowerCase(), anyG=false;
     var cats=document.querySelectorAll('.cat');
+    if(!q){
+      // поиск очищен — вернуть всё в свёрнутый вид
+      for(var z=0;z<cats.length;z++){
+        cats[z].style.display='';
+        cats[z].classList.remove('open');
+        var zItems=cats[z].querySelectorAll('.item');
+        for(var zi=0;zi<zItems.length;zi++) zItems[zi].style.display='';
+        var zSubs=cats[z].querySelectorAll('.sub');
+        for(var zs=0;zs<zSubs.length;zs++){ zSubs[zs].style.display=''; zSubs[zs].classList.remove('open'); }
+      }
+      document.getElementById('noRes').style.display='none';
+      return;
+    }
     for(var i=0;i<cats.length;i++){
       var cat=cats[i], anyC=false;
       var directItems=cat.querySelectorAll(':scope > .cat-body > .item');
@@ -173,11 +186,11 @@
           its[t].style.display=h?'':'none'; if(h)anyS=true;
         }
         subs[s].style.display=anyS?'':'none';
-        if(q) subs[s].classList.toggle('open',anyS);
+        subs[s].classList.toggle('open',anyS);
         if(anyS)anyC=true;
       }
       cat.style.display=anyC?'':'none';
-      if(q) cat.classList.toggle('open',anyC);
+      cat.classList.toggle('open',anyC);
       if(anyC)anyG=true;
     }
     document.getElementById('noRes').style.display=anyG?'none':'block';
